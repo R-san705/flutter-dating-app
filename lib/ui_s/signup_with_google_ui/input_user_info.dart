@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import "package:intl/intl.dart";
 import 'package:newtype_chatapp/model_s/tomato_structure/add_user_info_model.dart';
-import 'package:newtype_chatapp/models/user_attributes_model.dart';
 import 'package:newtype_chatapp/ui_s/logged_in_ui/logged_in_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -275,14 +274,11 @@ class InputUserInfo extends StatelessWidget {
                                       try {
                                         model.startLoading();
                                         await model.addUserInfo();
-                                        final _userAttributes = UserAttributes(
-                                            user.uid, user.email);
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => LoggedIn(
-                                                  userAttributes:
-                                                      _userAttributes),
+                                              builder: (context) =>
+                                                  const LoggedIn(),
                                             ));
                                       } catch (e) {
                                         ScaffoldMessenger.of(context)

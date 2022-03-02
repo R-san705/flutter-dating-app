@@ -7,4 +7,6 @@ enum ApplicationLoginState {
   register,
   password,
   loggedIn,
+  notEmailVerified,
+  notEnoughEntries,
 }

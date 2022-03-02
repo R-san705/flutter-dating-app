@@ -1,17 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:newtype_chatapp/models/user_attributes_model.dart';
 
 import '../models/profile_model.dart';
 
 class ProfileProvider extends ChangeNotifier {
-  final UserAttributes userAttributes;
-  ProfileProvider(this.userAttributes);
+  final String uid;
+  ProfileProvider(this.uid);
 
-  ProfileModel? userProfile;
+  ProfileModel? myProfile;
 
   Future<void> fetchMyUser() async {
-    final uid = userAttributes.uid;
     DocumentSnapshot documentSnapshot =
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
@@ -22,7 +20,7 @@ class ProfileProvider extends ChangeNotifier {
     final String? imageURL1 = data['imageURL1'];
     final String? imageURL2 = data['imageURL2'];
     final String? imageURL3 = data['imageURL3'];
-    userProfile = ProfileModel(
+    myProfile = ProfileModel(
         uid, name, birth, sex, profile, imageURL1, imageURL2, imageURL3);
     notifyListeners();
   }

@@ -2,34 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:newtype_chatapp/model_s/tomato_structure/add_messages.dart';
 import 'package:newtype_chatapp/models/message_model.dart';
 import 'package:newtype_chatapp/models/profile_model.dart';
-import 'package:newtype_chatapp/models/user_attributes_model.dart';
 import 'package:newtype_chatapp/providers/message_provider.dart';
 import 'package:newtype_chatapp/providers/profile_provider.dart';
 import 'package:provider/provider.dart';
 
 class TalkPage extends StatelessWidget {
-  final UserAttributes userAttributes;
-  final String partnerUid;
-  const TalkPage(
-      {Key? key, required this.partnerUid, required this.userAttributes})
+  TalkPage({Key? key, required this.partnerUid, required this.uid})
       : super(key: key);
+
+  final String uid;
+  final String partnerUid;
+  final _messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => MessageProvider(partnerUid, userAttributes),
+          create: (_) => MessageProvider(
+            partnerUid: partnerUid,
+            uid: uid,
+          ),
         ),
         ChangeNotifierProvider(
-            create: (_) => ProfileProvider(userAttributes)..fetchMyUser()),
-        ChangeNotifierProvider(
-            create: (_) => AddMessages(partnerUid, userAttributes)),
+            create: (_) => ProfileProvider(uid)..fetchMyUser()),
+        ChangeNotifierProvider(create: (_) => AddMessages(partnerUid, uid)),
       ],
       child: Consumer2<MessageProvider, ProfileProvider>(
         builder:
             (context, MessageProvider model2, ProfileProvider model1, child) {
-          final ProfileModel? myUser = model1.userProfile;
+          final ProfileModel? myUser = model1.myProfile;
           if (myUser == null) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -151,15 +153,12 @@ class TalkPage extends StatelessWidget {
                                   child: Consumer<AddMessages>(
                                     builder: (context, model3, child) {
                                       return TextField(
-                                        controller: model3.msgController,
+                                        controller: _messageController,
                                         decoration: const InputDecoration(
                                             hintText: "メッセージを入力...",
                                             hintStyle:
                                                 TextStyle(color: Colors.green),
                                             border: InputBorder.none),
-                                        onChanged: (text) {
-                                          model3.setMessage(text);
-                                        },
                                       );
                                     },
                                   ),
@@ -168,7 +167,9 @@ class TalkPage extends StatelessWidget {
                                   builder: (context, model3, child) {
                                     return IconButton(
                                       onPressed: () async {
-                                        await model3.addMessages();
+                                        await model3.addMessages(
+                                            _messageController.text);
+                                        _messageController.clear();
                                       },
                                       icon: const Icon(Icons.send,
                                           color: Colors.green),

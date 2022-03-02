@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:newtype_chatapp/model_s/tomato_structure/age_calc_model.dart';
 import 'package:newtype_chatapp/model_s/tomato_structure/preview_page_model.dart';
 import 'package:newtype_chatapp/models/profile_model.dart';
-import 'package:newtype_chatapp/models/user_attributes_model.dart';
 import 'package:newtype_chatapp/providers/profile_provider.dart';
 import 'package:provider/provider.dart';
 
 class PreviewMyPage extends StatelessWidget {
-  final UserAttributes userAttributes;
-  const PreviewMyPage({Key? key, required this.userAttributes})
-      : super(key: key);
+  final String uid;
+  const PreviewMyPage({Key? key, required this.uid}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (_) => ProfileProvider(userAttributes)..fetchMyUser()),
+            create: (_) => ProfileProvider(uid)..fetchMyUser()),
         ChangeNotifierProvider(create: (_) => PreviewPageModel()),
       ],
       child: Consumer<ProfileProvider>(
@@ -36,7 +34,7 @@ class PreviewMyPage extends StatelessWidget {
           ),
           body: Consumer<ProfileProvider>(
             builder: (context, model, child) {
-              final ProfileModel? myUser = model.userProfile;
+              final ProfileModel? myUser = model.myProfile;
               if (myUser == null) {
                 return const Center(child: CircularProgressIndicator());
               }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:newtype_chatapp/providers/auth_service.dart';
+import 'package:newtype_chatapp/enums/app_state.dart';
+import 'package:newtype_chatapp/providers/application_state_provider.dart';
 import 'package:newtype_chatapp/screens/sign_in_ui.dart';
+import 'package:newtype_chatapp/widgets/styled_button.dart';
 import 'package:provider/provider.dart';
 
 class Settings extends StatelessWidget {
@@ -8,7 +10,66 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
+    return Consumer<ApplicationStateProvider>(
+        builder: (context, appState, child) {
+      if (appState.loginState == ApplicationLoginState.loggedIn) {
+        return _Settings(
+          signOut: appState.signOut,
+        );
+      } else {
+        return SignIn(
+          login: (email, password) {
+            appState.signInWithEmailAndPassword(email, password,
+                (e) => _showErrorDialog(context, 'Failed to sign in', e));
+          },
+          loginState: appState.loginState,
+        );
+      }
+    });
+  }
+
+  void _showErrorDialog(BuildContext context, String title, Exception e) {
+    showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            style: const TextStyle(fontSize: 24),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  '${(e as dynamic).message}',
+                  style: const TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            StyledButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'OK',
+                style: TextStyle(color: Colors.deepPurple),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _Settings extends StatelessWidget {
+  const _Settings({Key? key, required this.signOut}) : super(key: key);
+  final void Function() signOut;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('設定'),
@@ -23,19 +84,7 @@ class Settings extends StatelessWidget {
                   primary: Colors.green, //ボタンの背景色
                 ),
                 onPressed: () async {
-                  try {
-                    await authService.signOut();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignIn()),
-                    );
-                  } catch (e) {
-                    final snackBar = SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text(e.toString()),
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
+                  signOut();
                 },
                 child: const Text('ログアウト')),
             ElevatedButton(

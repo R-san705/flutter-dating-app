@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:newtype_chatapp/providers/auth_service.dart';
-import 'package:newtype_chatapp/screens/sign_in_ui.dart';
-import 'package:newtype_chatapp/screens/sign_up_ui.dart';
+import 'package:newtype_chatapp/providers/application_state_provider.dart';
 import 'package:newtype_chatapp/screens/splash.dart';
 import 'package:provider/provider.dart';
 
@@ -10,9 +8,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MultiProvider(providers: [
-    Provider<AuthService>(
-      create: (_) => AuthService(),
-    ),
+    ChangeNotifierProvider(create: (_) => ApplicationStateProvider()),
   ], child: const MyApp()));
 }
 
@@ -29,8 +25,6 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const Splash(),
-        '/signin': (context) => SignIn(),
-        '/signup': (context) => SignUp(),
       },
     );
   }

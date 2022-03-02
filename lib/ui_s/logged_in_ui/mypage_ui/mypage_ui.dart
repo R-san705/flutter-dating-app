@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newtype_chatapp/model_s/tomato_structure/age_calc_model.dart';
 import 'package:newtype_chatapp/models/profile_model.dart';
-import 'package:newtype_chatapp/models/user_attributes_model.dart';
 import 'package:newtype_chatapp/providers/profile_provider.dart';
 import 'package:newtype_chatapp/ui_s/logged_in_ui/mypage_ui/preview_mypage_ui.dart';
 import 'package:provider/provider.dart';
@@ -9,19 +8,19 @@ import 'package:provider/provider.dart';
 import 'editing_mypage_ui.dart';
 
 class MyPage extends StatelessWidget {
-  final UserAttributes userAttributes;
-  const MyPage({Key? key, required this.userAttributes}) : super(key: key);
+  final String uid;
+  const MyPage({Key? key, required this.uid}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (_) => ProfileProvider(userAttributes)..fetchMyUser()),
+            create: (_) => ProfileProvider(uid)..fetchMyUser()),
       ],
       child: Consumer<ProfileProvider>(
           builder: (BuildContext context, ProfileProvider model2, child) {
-        final ProfileModel? myUser = model2.userProfile;
+        final ProfileModel? myUser = model2.myProfile;
         if (myUser == null) {
           return const Center(child: CircularProgressIndicator());
         }
@@ -44,8 +43,7 @@ class MyPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                PreviewMyPage(userAttributes: userAttributes)),
+                            builder: (context) => PreviewMyPage(uid: uid)),
                       );
                     },
                     child: CircleAvatar(
@@ -123,8 +121,8 @@ class MyPage extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => PreviewMyPage(
-                                            userAttributes: userAttributes)),
+                                        builder: (context) =>
+                                            PreviewMyPage(uid: uid)),
                                   );
                                 },
                                 child: const Icon(Icons.remove_red_eye),

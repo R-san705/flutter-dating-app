@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:newtype_chatapp/models/friends_model.dart';
-import 'package:newtype_chatapp/models/user_attributes_model.dart';
 import 'package:newtype_chatapp/ui_s/logged_in_ui/chat_ui/talk_page.dart';
 import 'package:provider/provider.dart';
 
 class ChatUi extends StatelessWidget {
-  final UserAttributes userAttributes;
-  const ChatUi({Key? key, required this.userAttributes}) : super(key: key);
+  final String uid;
+  const ChatUi({Key? key, required this.uid}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (_) => FriendsModel(userAttributes)..fetchMyFriend())
+            create: (_) => FriendsModel(uid)..fetchMyFriend())
       ],
       child: Consumer(
         builder: (context, FriendsModel model1, child) {
@@ -54,7 +53,7 @@ class ChatUi extends StatelessWidget {
                                     MaterialPageRoute(
                                         builder: (context) => TalkPage(
                                               partnerUid: friendsUid[index],
-                                              userAttributes: userAttributes,
+                                              uid: uid,
                                             )),
                                   );
                                 },

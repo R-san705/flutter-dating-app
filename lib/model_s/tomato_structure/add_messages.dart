@@ -1,24 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:newtype_chatapp/models/user_attributes_model.dart';
 
 class AddMessages extends ChangeNotifier {
-  final UserAttributes userAttributes;
+  final String uid;
   final String partnerUid;
-  AddMessages(this.partnerUid, this.userAttributes);
-  String message = '';
+  AddMessages(this.partnerUid, this.uid);
 
-  void setMessage(String value) {
-    message = value;
-    notifyListeners();
-  }
-
-  final TextEditingController msgController = TextEditingController();
-
-  Future<void> addMessages() async {
-    message = msgController.text;
-
-    final uid = userAttributes.uid;
+  Future<void> addMessages(String message) async {
     CollectionReference ref = FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
@@ -44,8 +32,6 @@ class AddMessages extends ChangeNotifier {
       'sentBy': uid,
       'message_type': 'receiver',
     });
-
-    msgController.clear();
     notifyListeners();
   }
 }

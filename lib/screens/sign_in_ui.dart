@@ -1,20 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:newtype_chatapp/models/user_attributes_model.dart';
-import 'package:newtype_chatapp/providers/auth_service.dart';
-import 'package:newtype_chatapp/screens/email_check.dart';
-import 'package:newtype_chatapp/ui_s/logged_in_ui/logged_in_ui.dart';
-import 'package:provider/provider.dart';
+import 'package:newtype_chatapp/enums/app_state.dart';
+import 'package:newtype_chatapp/screens/register_ui.dart';
 
 class SignIn extends StatelessWidget {
-  SignIn({Key? key}) : super(key: key);
+  SignIn({Key? key, required this.login, required this.loginState})
+      : super(key: key);
+  final void Function(String email, String password) login;
+  final ApplicationLoginState loginState;
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
     return Scaffold(
       body: Center(
         child: Padding(
@@ -23,7 +21,7 @@ class SignIn extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
-                controller: emailController,
+                controller: _emailController,
                 cursorColor: Colors.green,
                 decoration: const InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -40,7 +38,7 @@ class SignIn extends StatelessWidget {
                 height: 20,
               ),
               TextFormField(
-                controller: passwordController,
+                controller: _passwordController,
                 obscureText: true,
                 cursorColor: Colors.green,
                 decoration: const InputDecoration(
@@ -64,39 +62,10 @@ class SignIn extends StatelessWidget {
                           primary: Colors.green, //ボタンの背景色
                         ),
                         onPressed: () async {
-                          try {
-                            User? _user =
-                                await authService.signInWithEmailAndPassword(
-                                    emailController.text,
-                                    passwordController.text);
-                            if (_user != null && _user.emailVerified) {
-                              final _userAttributes =
-                                  UserAttributes(_user.uid, _user.email);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoggedIn(
-                                          userAttributes: _userAttributes,
-                                        )),
-                              );
-                            } else if (_user != null) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EmailCheck(
-                                        email: emailController.text,
-                                        password: passwordController.text,
-                                        from: 2)),
-                              );
-                            }
-                          } catch (e) {
-                            final snackBar = SnackBar(
-                              backgroundColor: Colors.red,
-                              content: Text(e.toString()),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          }
+                          login(
+                            _emailController.text,
+                            _passwordController.text,
+                          );
                         },
                         child: const Text('ログイン'))),
               )
@@ -113,7 +82,12 @@ class SignIn extends StatelessWidget {
                   primary: Colors.green, //ボタンの背景色
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, 'signup');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Register(),
+                    ),
+                  );
                 },
                 child: const Text('新規登録はこちらから'))),
       ),
