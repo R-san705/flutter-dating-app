@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newtype_chatapp/models/friends_model.dart';
-import 'package:newtype_chatapp/ui_s/logged_in_ui/chat_ui/talk_page.dart';
+import 'package:newtype_chatapp/screens/talk/talk_page.dart';
 import 'package:provider/provider.dart';
 
 class ChatUi extends StatelessWidget {

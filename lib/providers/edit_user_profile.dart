@@ -8,9 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:newtype_chatapp/models/profile_model.dart';
 
-class EditUserInfoModel extends ChangeNotifier {
+class EditUserProfile extends ChangeNotifier {
   final ProfileModel myUser;
-  EditUserInfoModel(this.myUser) {
+  EditUserProfile(this.myUser) {
     nameController.text = myUser.name;
     birthController.text = myUser.birth;
     profileController.text = myUser.profile;

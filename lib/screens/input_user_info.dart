@@ -2,8 +2,8 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import "package:intl/intl.dart";
-import 'package:newtype_chatapp/model_s/tomato_structure/add_user_info_model.dart';
-import 'package:newtype_chatapp/ui_s/logged_in_ui/logged_in_ui.dart';
+import 'package:newtype_chatapp/providers/add_user_profile.dart';
+import 'package:newtype_chatapp/screens/home/home_ui.dart';
 import 'package:provider/provider.dart';
 
 class InputUserInfo extends StatelessWidget {
@@ -14,13 +14,13 @@ class InputUserInfo extends StatelessWidget {
     final DateFormat _format = DateFormat('yyyy年MM月dd日');
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AddUserInfoModel>(
-          create: (_) => AddUserInfoModel(),
+        ChangeNotifierProvider<AddUserProfile>(
+          create: (_) => AddUserProfile(),
         ),
       ],
       child: Scaffold(
-        body: Consumer<AddUserInfoModel>(
-          builder: (context, AddUserInfoModel model, child) {
+        body: Consumer<AddUserProfile>(
+          builder: (context, AddUserProfile model, child) {
             return SingleChildScrollView(
               child: Center(
                 child: Padding(
@@ -278,7 +278,7 @@ class InputUserInfo extends StatelessWidget {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  const LoggedIn(),
+                                                  const Home(),
                                             ));
                                       } catch (e) {
                                         ScaffoldMessenger.of(context)

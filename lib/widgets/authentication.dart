@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:newtype_chatapp/enums/app_state.dart';
 import 'package:newtype_chatapp/screens/email_check.dart';
+import 'package:newtype_chatapp/screens/home/home_ui.dart';
 import 'package:newtype_chatapp/screens/sign_in_ui.dart';
-import 'package:newtype_chatapp/ui_s/logged_in_ui/logged_in_ui.dart';
 import 'package:newtype_chatapp/widgets/styled_button.dart';
 
 class Authentication extends StatelessWidget {
@@ -35,7 +35,7 @@ class Authentication extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (loginState) {
       case ApplicationLoginState.loggedIn:
-        return const LoggedIn();
+        return const Home();
       case ApplicationLoginState.loggedOut:
         return SignIn(
           login: (email, password) {

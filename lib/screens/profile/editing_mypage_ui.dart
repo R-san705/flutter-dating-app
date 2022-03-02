@@ -1,8 +1,8 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import "package:intl/intl.dart";
-import 'package:newtype_chatapp/model_s/tomato_structure/edit_user_info_model.dart';
 import 'package:newtype_chatapp/models/profile_model.dart';
+import 'package:newtype_chatapp/providers/edit_user_profile.dart';
 import 'package:provider/provider.dart';
 
 class EditingMyPage extends StatelessWidget {
@@ -13,7 +13,7 @@ class EditingMyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final DateFormat _format = DateFormat('yyyy年MM月dd日');
     return ChangeNotifierProvider(
-      create: (_) => EditUserInfoModel(myUser),
+      create: (_) => EditUserProfile(myUser),
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -27,7 +27,7 @@ class EditingMyPage extends StatelessWidget {
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
-        body: Consumer<EditUserInfoModel>(
+        body: Consumer<EditUserProfile>(
           builder: (context, model, child) {
             Widget showImage1() {
               if (model.imageFile1 != null) {

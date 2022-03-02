@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:newtype_chatapp/ui_s/logged_in_ui/chat_ui/chat_ui.dart';
-import 'package:newtype_chatapp/ui_s/logged_in_ui/discovery_ui/discovery_ui.dart';
-import 'package:newtype_chatapp/ui_s/logged_in_ui/swiper_ui/swiper_ui.dart';
+import 'package:newtype_chatapp/screens/discovery/discovery_ui.dart';
+import 'package:newtype_chatapp/screens/swipe/swiper_ui.dart';
+import 'package:newtype_chatapp/screens/talk/chat_ui.dart';
 
 class LoggedInPageModel extends ChangeNotifier {
   final String uid;

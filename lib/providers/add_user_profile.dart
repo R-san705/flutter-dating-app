@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddUserInfoModel extends ChangeNotifier {
+class AddUserProfile extends ChangeNotifier {
   String? name;
   String? birth;
   String? profile;

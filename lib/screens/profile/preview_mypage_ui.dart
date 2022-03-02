@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:newtype_chatapp/model_s/tomato_structure/age_calc_model.dart';
-import 'package:newtype_chatapp/model_s/tomato_structure/preview_page_model.dart';
 import 'package:newtype_chatapp/models/profile_model.dart';
+import 'package:newtype_chatapp/providers/age_calc.dart';
+import 'package:newtype_chatapp/providers/preview_page_model.dart';
 import 'package:newtype_chatapp/providers/profile_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +38,7 @@ class PreviewMyPage extends StatelessWidget {
               if (myUser == null) {
                 return const Center(child: CircularProgressIndicator());
               }
-              var _age = AgeCalcModel().ageCalc(myUser.birth);
+              var _age = AgeCalc().ageCalc(myUser.birth);
               List<String> imgList = [
                 myUser.imageURL1!,
                 myUser.imageURL2!,

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:newtype_chatapp/enums/app_state.dart';
-import 'package:newtype_chatapp/model_s/tomato_structure/logged_in_page_model.dart';
 import 'package:newtype_chatapp/providers/application_state_provider.dart';
+import 'package:newtype_chatapp/providers/logged_in_page_model.dart';
 import 'package:newtype_chatapp/providers/profile_provider.dart';
+import 'package:newtype_chatapp/screens/settings/settings_ui.dart';
 import 'package:newtype_chatapp/screens/sign_in_ui.dart';
-import 'package:newtype_chatapp/ui_s/logged_in_ui/settings_ui/settings_ui.dart';
 import 'package:newtype_chatapp/widgets/styled_button.dart';
 import 'package:provider/provider.dart';
 
-import 'mypage_ui/mypage_ui.dart';
+import '../profile/mypage_ui.dart';
 
-class LoggedIn extends StatelessWidget {
-  const LoggedIn({Key? key}) : super(key: key);
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

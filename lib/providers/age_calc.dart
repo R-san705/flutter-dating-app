@@ -1,7 +1,7 @@
 import 'package:age_calculator/age_calculator.dart';
 import 'package:intl/intl.dart';
 
-class AgeCalcModel {
+class AgeCalc {
   final _dateFormatter = DateFormat('yyyy年MM月dd日');
 
   DateTime getDatetime(String value) {

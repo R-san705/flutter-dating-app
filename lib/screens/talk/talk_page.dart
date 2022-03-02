@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:newtype_chatapp/model_s/tomato_structure/add_messages.dart';
 import 'package:newtype_chatapp/models/message_model.dart';
 import 'package:newtype_chatapp/models/profile_model.dart';
+import 'package:newtype_chatapp/providers/add_messages.dart';
 import 'package:newtype_chatapp/providers/message_provider.dart';
 import 'package:newtype_chatapp/providers/profile_provider.dart';
 import 'package:provider/provider.dart';
