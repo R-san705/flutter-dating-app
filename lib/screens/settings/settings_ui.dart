@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newtype_chatapp/enums/app_state.dart';
 import 'package:newtype_chatapp/providers/application_state_provider.dart';
-import 'package:newtype_chatapp/screens/sign_in_ui.dart';
-import 'package:newtype_chatapp/widgets/styled_button.dart';
+import 'package:newtype_chatapp/screens/splash.dart';
 import 'package:provider/provider.dart';
 
 class Settings extends StatelessWidget {
@@ -17,50 +16,9 @@ class Settings extends StatelessWidget {
           signOut: appState.signOut,
         );
       } else {
-        return SignIn(
-          login: (email, password) {
-            appState.signInWithEmailAndPassword(email, password,
-                (e) => _showErrorDialog(context, 'Failed to sign in', e));
-          },
-          loginState: appState.loginState,
-        );
+        return const Splash();
       }
     });
-  }
-
-  void _showErrorDialog(BuildContext context, String title, Exception e) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(
-            title,
-            style: const TextStyle(fontSize: 24),
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  '${(e as dynamic).message}',
-                  style: const TextStyle(fontSize: 18),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            StyledButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text(
-                'OK',
-                style: TextStyle(color: Colors.deepPurple),
-              ),
-            ),
-          ],
-        );
-      },
-    );
   }
 }
 
